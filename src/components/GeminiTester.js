@@ -21,6 +21,91 @@ const markdownPrompts = [
   "Create a markdown product specification with tables, lists and emphasis"
 ];
 
+// Gemini Loading Animation Component
+const GeminiLoadingAnimation = () => (
+  <div style={{ 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    padding: '40px 20px',
+    backgroundColor: '#f8f9fa',
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0',
+    minHeight: '300px'
+  }}>
+    <div style={{ 
+      width: '80px', 
+      height: '80px', 
+      borderRadius: '50%',
+      border: '5px solid #4285F4',
+      borderTopColor: 'transparent',
+      animation: 'spin 1s linear infinite',
+      marginBottom: '20px'
+    }} />
+    
+    <style jsx>{`
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes pulse {
+        0% { transform: scale(0.8); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.8); opacity: 0.5; }
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+    `}</style>
+    
+    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+      <div style={{ 
+        width: '15px', 
+        height: '15px', 
+        backgroundColor: '#4285F4', 
+        borderRadius: '50%',
+        animation: 'bounce 0.6s ease-in-out infinite',
+        animationDelay: '0s'
+      }} />
+      <div style={{ 
+        width: '15px', 
+        height: '15px', 
+        backgroundColor: '#EA4335', 
+        borderRadius: '50%',
+        animation: 'bounce 0.6s ease-in-out infinite',
+        animationDelay: '0.2s'
+      }} />
+      <div style={{ 
+        width: '15px', 
+        height: '15px', 
+        backgroundColor: '#FBBC05', 
+        borderRadius: '50%',
+        animation: 'bounce 0.6s ease-in-out infinite',
+        animationDelay: '0.4s'
+      }} />
+      <div style={{ 
+        width: '15px', 
+        height: '15px', 
+        backgroundColor: '#34A853', 
+        borderRadius: '50%',
+        animation: 'bounce 0.6s ease-in-out infinite',
+        animationDelay: '0.6s'
+      }} />
+    </div>
+    
+    <div style={{ 
+      fontSize: '18px', 
+      color: '#5f6368',
+      fontWeight: 'bold',
+      animation: 'pulse 2s ease-in-out infinite'
+    }}>
+      Gemini is thinking...
+    </div>
+  </div>
+);
+
 const GeminiTester = () => {
   // Add a tab state to switch between text and PDF analysis
   const [activeTab, setActiveTab] = useState('text');
@@ -100,199 +185,227 @@ const GeminiTester = () => {
   );
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', textAlign: 'left' }}>
       <div style={{ marginBottom: '20px' }}>
         <TabButton id="text" label="Text Prompts" isActive={activeTab === 'text'} />
         <TabButton id="pdf" label="PDF Analysis" isActive={activeTab === 'pdf'} />
       </div>
 
       {activeTab === 'text' ? (
-        // Text prompts UI
+        // Text prompts UI with side-by-side layout
         <>
           <h2>Gemini Text Prompts</h2>
           
-          <div style={{ marginBottom: '20px' }}>
-            <h3>Sample Prompts</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {samplePrompts.map((text, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleSamplePrompt(text)}
-                  style={{ 
-                    padding: '8px 12px', 
-                    backgroundColor: '#f0f0f0', 
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {text.substring(0, 30)}...
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <h3>Table Prompts</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {tableSamplePrompts.map((text, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleSamplePrompt(text)}
-                  style={{ 
-                    padding: '8px 12px', 
-                    backgroundColor: '#e6f7ff', 
-                    border: '1px solid #91d5ff',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {text.substring(0, 30)}...
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <h3>Markdown Formatting Prompts</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {markdownPrompts.map((text, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleSamplePrompt(text)}
-                  style={{ 
-                    padding: '8px 12px', 
-                    backgroundColor: '#f0f2ff', 
-                    border: '1px solid #d6e4ff',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {text.substring(0, 30)}...
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '15px' }}>
-              <label htmlFor="prompt" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                Enter Prompt:
-              </label>
-              <textarea 
-                id="prompt"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Type your prompt here..."
-                rows={5}
-                style={{ 
-                  width: '100%', 
-                  padding: '10px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  fontFamily: 'inherit',
-                  fontSize: '16px'
-                }}
-              />
-            </div>
-            
-            <button 
-              type="submit" 
-              disabled={loading || !prompt.trim()}
-              style={{ 
-                padding: '10px 16px', 
-                backgroundColor: '#4285F4', 
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                fontSize: '16px',
-                fontWeight: 'bold'
-              }}
-            >
-              {loading ? 'Processing...' : 'Test Prompt'}
-            </button>
-          </form>
-
-          {error && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* Left Column - Input */}
             <div style={{ 
-              color: 'white', 
-              backgroundColor: '#d32f2f',
-              padding: '10px 15px',
-              borderRadius: '4px',
-              marginTop: '20px'
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              gap: '20px',
+              '@media (min-width: 992px)': { flexDirection: 'row' }
             }}>
-              <strong>Error:</strong> {error}
-            </div>
-          )}
-
-          {response && (
-            <div style={{ 
-              marginTop: '30px',
-              padding: '20px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '8px',
-              border: '1px solid #e0e0e0'
-            }}>
-              <h3>Latest Response:</h3>
-              <div style={{ 
-                backgroundColor: 'white',
-                border: '1px solid #eee',
-                borderRadius: '4px',
-                maxHeight: '500px',
-                overflow: 'auto',
-                padding: '15px'
-              }}>
-                <MarkdownRenderer content={response} />
-              </div>
-            </div>
-          )}
-
-          {history.length > 0 && (
-            <div style={{ marginTop: '40px' }}>
-              <h3>Test History</h3>
-              <div style={{ maxHeight: '400px', overflow: 'auto' }}>
-                {history.map(entry => (
-                  <div 
-                    key={entry.id} 
-                    style={{
-                      marginBottom: '15px',
-                      padding: '15px',
-                      backgroundColor: '#f0f7ff',
-                      borderRadius: '8px',
-                      border: '1px solid #d0e1f9'
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                <div style={{ marginBottom: '20px' }}>
+                  <h3>Sample Prompts</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {samplePrompts.map((text, index) => (
+                      <button 
+                        key={index}
+                        onClick={() => handleSamplePrompt(text)}
+                        style={{ 
+                          padding: '8px 12px', 
+                          backgroundColor: '#f0f0f0', 
+                          border: '1px solid #ddd',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          textAlign: 'left'
+                        }}
+                      >
+                        {text.substring(0, 30)}...
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div style={{ marginBottom: '20px' }}>
+                  <h3>Table Prompts</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {tableSamplePrompts.map((text, index) => (
+                      <button 
+                        key={index}
+                        onClick={() => handleSamplePrompt(text)}
+                        style={{ 
+                          padding: '8px 12px', 
+                          backgroundColor: '#e6f7ff', 
+                          border: '1px solid #91d5ff',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          textAlign: 'left'
+                        }}
+                      >
+                        {text.substring(0, 30)}...
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div style={{ marginBottom: '20px' }}>
+                  <h3>Markdown Formatting Prompts</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                    {markdownPrompts.map((text, index) => (
+                      <button 
+                        key={index}
+                        onClick={() => handleSamplePrompt(text)}
+                        style={{ 
+                          padding: '8px 12px', 
+                          backgroundColor: '#f0f2ff', 
+                          border: '1px solid #d6e4ff',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          textAlign: 'left'
+                        }}
+                      >
+                        {text.substring(0, 30)}...
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <form onSubmit={handleSubmit}>
+                  <div style={{ marginBottom: '15px' }}>
+                    <label htmlFor="prompt" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+                      Enter Prompt:
+                    </label>
+                    <textarea 
+                      id="prompt"
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Type your prompt here..."
+                      rows={5}
+                      style={{ 
+                        width: '100%', 
+                        padding: '10px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        fontFamily: 'inherit',
+                        fontSize: '16px',
+                        textAlign: 'left'
+                      }}
+                    />
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    disabled={loading || !prompt.trim()}
+                    style={{ 
+                      padding: '10px 16px', 
+                      backgroundColor: '#4285F4', 
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      fontSize: '16px',
+                      fontWeight: 'bold'
                     }}
                   >
-                    <div style={{ fontSize: '12px', color: '#666', textAlign: 'right' }}>
-                      {entry.timestamp}
-                    </div>
-                    <div style={{ marginBottom: '10px' }}>
-                      <strong>Prompt:</strong>
-                      <div style={{ 
-                        padding: '8px', 
-                        backgroundColor: '#e6f2ff',
-                        borderRadius: '4px' 
-                      }}>
-                        {entry.prompt}
-                      </div>
-                    </div>
-                    <div>
-                      <strong>Response:</strong>
-                      <div style={{ 
-                        padding: '8px', 
-                        backgroundColor: 'white',
-                        borderRadius: '4px',
-                        maxHeight: '200px',
-                        overflow: 'auto'
-                      }}>
-                        <MarkdownRenderer content={entry.response} />
-                      </div>
+                    {loading ? 'Processing...' : 'Test Prompt'}
+                  </button>
+                </form>
+              </div>
+              
+              {/* Right Column - Output */}
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                {error && (
+                  <div style={{ 
+                    color: 'white', 
+                    backgroundColor: '#d32f2f',
+                    padding: '10px 15px',
+                    borderRadius: '4px',
+                    marginBottom: '20px',
+                    textAlign: 'left'
+                  }}>
+                    <strong>Error:</strong> {error}
+                  </div>
+                )}
+
+                {loading ? (
+                  <GeminiLoadingAnimation />
+                ) : response && (
+                  <div style={{ 
+                    marginBottom: '30px',
+                    padding: '20px',
+                    backgroundColor: '#f8f9fa',
+                    borderRadius: '8px',
+                    border: '1px solid #e0e0e0',
+                    textAlign: 'left'
+                  }}>
+                    <h3>Latest Response:</h3>
+                    <div style={{ 
+                      backgroundColor: 'white',
+                      border: '1px solid #eee',
+                      borderRadius: '4px',
+                      maxHeight: '500px',
+                      overflow: 'auto',
+                      padding: '15px',
+                      textAlign: 'left'
+                    }}>
+                      <MarkdownRenderer content={response} />
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
-          )}
+
+            {/* History Section - Full Width */}
+            {history.length > 0 && (
+              <div style={{ width: '100%' }}>
+                <h3>Test History</h3>
+                <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+                  {history.map(entry => (
+                    <div 
+                      key={entry.id} 
+                      style={{
+                        marginBottom: '15px',
+                        padding: '15px',
+                        backgroundColor: '#f0f7ff',
+                        borderRadius: '8px',
+                        border: '1px solid #d0e1f9',
+                        textAlign: 'left'
+                      }}
+                    >
+                      <div style={{ fontSize: '12px', color: '#666', textAlign: 'right' }}>
+                        {entry.timestamp}
+                      </div>
+                      <div style={{ marginBottom: '10px' }}>
+                        <strong>Prompt:</strong>
+                        <div style={{ 
+                          padding: '8px', 
+                          backgroundColor: '#e6f2ff',
+                          borderRadius: '4px',
+                          textAlign: 'left'
+                        }}>
+                          {entry.prompt}
+                        </div>
+                      </div>
+                      <div>
+                        <strong>Response:</strong>
+                        <div style={{ 
+                          padding: '8px', 
+                          backgroundColor: 'white',
+                          borderRadius: '4px',
+                          maxHeight: '200px',
+                          overflow: 'auto',
+                          textAlign: 'left'
+                        }}>
+                          <MarkdownRenderer content={entry.response} />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </>
       ) : (
         // PDF Analysis UI

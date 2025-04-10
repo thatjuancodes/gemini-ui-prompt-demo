@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw';
 
 const MarkdownRenderer = ({ content }) => {
   return (
-    <div className="markdown-content">
+    <div className="markdown-content" style={{ textAlign: 'left' }}>
       <ReactMarkdown 
         children={content} 
         remarkPlugins={[remarkGfm]} 
@@ -19,6 +19,7 @@ const MarkdownRenderer = ({ content }) => {
                   borderCollapse: 'collapse', 
                   width: '100%',
                   border: '1px solid #e0e0e0',
+                  textAlign: 'left'
                 }} 
                 {...props} 
               />
@@ -29,17 +30,19 @@ const MarkdownRenderer = ({ content }) => {
               style={{ 
                 backgroundColor: '#f5f5f5',
                 border: '1px solid #e0e0e0',
+                textAlign: 'left'
               }} 
               {...props} 
             />
           ),
           tbody: ({ node, ...props }) => (
-            <tbody {...props} />
+            <tbody style={{ textAlign: 'left' }} {...props} />
           ),
           tr: ({ node, ...props }) => (
             <tr 
               style={{ 
                 borderBottom: '1px solid #e0e0e0',
+                textAlign: 'left'
               }} 
               {...props} 
             />
@@ -50,7 +53,7 @@ const MarkdownRenderer = ({ content }) => {
                 padding: '12px 16px',
                 textAlign: 'left',
                 fontWeight: 'bold',
-                borderRight: '1px solid #e0e0e0',
+                borderRight: '1px solid #e0e0e0'
               }} 
               {...props} 
             />
@@ -60,6 +63,7 @@ const MarkdownRenderer = ({ content }) => {
               style={{ 
                 padding: '8px 16px',
                 borderRight: '1px solid #e0e0e0',
+                textAlign: 'left'
               }} 
               {...props} 
             />
@@ -68,15 +72,16 @@ const MarkdownRenderer = ({ content }) => {
           code: ({ node, inline, className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || '');
             return !inline && match ? (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', textAlign: 'left' }}>
                 <pre style={{ 
                   backgroundColor: '#f6f8fa', 
                   borderRadius: '6px',
                   padding: '16px',
                   overflowX: 'auto',
                   marginBottom: '1rem',
+                  textAlign: 'left'
                 }}>
-                  <code className={className} {...props}>
+                  <code className={className} style={{ textAlign: 'left' }} {...props}>
                     {children}
                   </code>
                 </pre>
@@ -89,6 +94,7 @@ const MarkdownRenderer = ({ content }) => {
                   borderRadius: '3px',
                   fontSize: '85%',
                   fontFamily: 'monospace',
+                  textAlign: 'left'
                 }}
                 className={className}
                 {...props}
@@ -97,26 +103,26 @@ const MarkdownRenderer = ({ content }) => {
               </code>
             );
           },
-          // Basic text styling
-          p: ({ node, ...props }) => <p style={{ lineHeight: '1.6', marginBottom: '1rem' }} {...props} />,
+          // Basic text styling with explicit left alignment
+          p: ({ node, ...props }) => <p style={{ lineHeight: '1.6', marginBottom: '1rem', textAlign: 'left' }} {...props} />,
           h1: ({ node, children, ...props }) => (
-            <h1 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+            <h1 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem', textAlign: 'left' }} {...props}>
               {children}
             </h1>
           ),
           h2: ({ node, children, ...props }) => (
-            <h2 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+            <h2 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem', textAlign: 'left' }} {...props}>
               {children}
             </h2>
           ),
           h3: ({ node, children, ...props }) => (
-            <h3 style={{ marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+            <h3 style={{ marginTop: '1.5rem', marginBottom: '1rem', textAlign: 'left' }} {...props}>
               {children}
             </h3>
           ),
-          ul: ({ node, ...props }) => <ul style={{ paddingLeft: '2em', marginBottom: '1rem' }} {...props} />,
-          ol: ({ node, ...props }) => <ol style={{ paddingLeft: '2em', marginBottom: '1rem' }} {...props} />,
-          li: ({ node, ...props }) => <li style={{ marginBottom: '0.5rem' }} {...props} />
+          ul: ({ node, ...props }) => <ul style={{ paddingLeft: '2em', marginBottom: '1rem', textAlign: 'left' }} {...props} />,
+          ol: ({ node, ...props }) => <ol style={{ paddingLeft: '2em', marginBottom: '1rem', textAlign: 'left' }} {...props} />,
+          li: ({ node, ...props }) => <li style={{ marginBottom: '0.5rem', textAlign: 'left' }} {...props} />
         }}
       />
     </div>
