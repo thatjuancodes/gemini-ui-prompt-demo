@@ -76,10 +76,38 @@ export const analyzePDF = async (file, prompt) => {
   }
 };
 
+/**
+ * Analyze an image file with Gemini vision model
+ * @param {File} file - The image file to analyze
+ * @param {string} prompt - Optional prompt describing what to analyze in the image
+ * @returns {Promise<string>} - The analysis result
+ */
+export const analyzeImage = async (file, prompt = "Analyze this image in detail") => {
+  try {
+    if (!file || !file.type.includes("image")) {
+      throw new Error("Please provide a valid image file");
+    }
+
+    const filePart = await fileToGenerativePart(file);
+    
+    const result = await visionModel.generateContent([
+      prompt,
+      filePart
+    ]);
+    
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Error analyzing image:", error);
+    throw error;
+  }
+};
+
 // Create a service object before exporting
 const geminiService = {
   generateContent,
-  analyzePDF
+  analyzePDF,
+  analyzeImage
 };
 
 export default geminiService; 
