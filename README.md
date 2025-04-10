@@ -30,6 +30,23 @@ If you encounter model-related errors, check the [Google AI documentation](https
 - PDF file upload and analysis
 - Sample prompts for quick testing
 - Response history for text prompts
+- **Markdown rendering** with support for:
+  - Tables
+  - Code blocks with syntax highlighting
+  - Headers, lists, and emphasis
+  - Properly formatted text output
+- **Table generation and rendering** for:
+  - Structured data in responses
+  - Tables extracted from PDFs
+  - Comparison tables and data presentation
+
+## Dependencies
+The application uses the following main dependencies:
+- React for the UI
+- Google Generative AI SDK for Gemini API integration
+- React Markdown for rendering markdown content
+- remark-gfm for GitHub-flavored markdown support (including tables)
+- rehype-raw for processing raw HTML in markdown
 
 ## Available Scripts
 

@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { generateContent } from '../services/geminiService';
 import PDFAnalyzer from './PDFAnalyzer';
+import MarkdownRenderer from './MarkdownRenderer';
+
+// Add table-specific sample prompts
+const tableSamplePrompts = [
+  "Create a table comparing the top 5 programming languages by popularity",
+  "Make a table of planets in our solar system with their key properties",
+  "Generate a markdown table of chemical elements with their atomic number, symbol, and properties",
+  "Create a comparison table of different machine learning algorithms with their pros and cons",
+  "Make a table of top 10 countries by GDP with their population and growth rate",
+  "Generate a table comparing different database types (SQL, NoSQL, etc.)"
+];
+
+// Add markdown-specific prompts
+const markdownPrompts = [
+  "Create a well-formatted markdown document about artificial intelligence with headers, lists, and emphasis",
+  "Write a tutorial on Python basics with code blocks, headers, and bullet points",
+  "Generate a markdown FAQ about climate change with collapsible sections",
+  "Create a markdown product specification with tables, lists and emphasis"
+];
 
 const GeminiTester = () => {
   // Add a tab state to switch between text and PDF analysis
@@ -113,6 +132,48 @@ const GeminiTester = () => {
             </div>
           </div>
           
+          <div style={{ marginBottom: '20px' }}>
+            <h3>Table Prompts</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {tableSamplePrompts.map((text, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleSamplePrompt(text)}
+                  style={{ 
+                    padding: '8px 12px', 
+                    backgroundColor: '#e6f7ff', 
+                    border: '1px solid #91d5ff',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {text.substring(0, 30)}...
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            <h3>Markdown Formatting Prompts</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {markdownPrompts.map((text, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleSamplePrompt(text)}
+                  style={{ 
+                    padding: '8px 12px', 
+                    backgroundColor: '#f0f2ff', 
+                    border: '1px solid #d6e4ff',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {text.substring(0, 30)}...
+                </button>
+              ))}
+            </div>
+          </div>
+          
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '15px' }}>
               <label htmlFor="prompt" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
@@ -175,16 +236,14 @@ const GeminiTester = () => {
             }}>
               <h3>Latest Response:</h3>
               <div style={{ 
-                whiteSpace: 'pre-wrap',
-                fontFamily: 'monospace',
-                padding: '15px',
                 backgroundColor: 'white',
                 border: '1px solid #eee',
                 borderRadius: '4px',
-                maxHeight: '300px',
-                overflow: 'auto'
+                maxHeight: '500px',
+                overflow: 'auto',
+                padding: '15px'
               }}>
-                {response}
+                <MarkdownRenderer content={response} />
               </div>
             </div>
           )}
@@ -223,11 +282,10 @@ const GeminiTester = () => {
                         padding: '8px', 
                         backgroundColor: 'white',
                         borderRadius: '4px',
-                        maxHeight: '150px',
-                        overflow: 'auto',
-                        fontSize: '14px'
+                        maxHeight: '200px',
+                        overflow: 'auto'
                       }}>
-                        {entry.response}
+                        <MarkdownRenderer content={entry.response} />
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { analyzePDF } from '../services/geminiService';
+import MarkdownRenderer from './MarkdownRenderer';
 
 const PDFAnalyzer = () => {
   const [file, setFile] = useState(null);
@@ -72,6 +73,13 @@ const PDFAnalyzer = () => {
     "Identify key people, organizations, and dates mentioned in this document",
     "What are the main conclusions or recommendations from this document?",
     "Extract all statistical data from this document"
+  ];
+
+  // Add special prompts for extracting tables from PDFs
+  const tableExtractionPrompts = [
+    "Extract all tables from this PDF and format them as markdown tables",
+    "Find any data tables in this PDF and convert them to markdown format",
+    "Identify numerical data in this PDF and present it as a structured table"
   ];
 
   return (
@@ -194,6 +202,29 @@ const PDFAnalyzer = () => {
           </div>
         </div>
         
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ marginBottom: '10px', fontSize: '16px' }}>Table Extraction Prompts</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {tableExtractionPrompts.map((text, index) => (
+              <button 
+                key={index}
+                onClick={() => setPrompt(text)}
+                style={{ 
+                  padding: '8px 12px', 
+                  backgroundColor: prompt === text ? '#4285F4' : '#e6f7ff',
+                  color: prompt === text ? 'white' : 'black',
+                  border: '1px solid #91d5ff',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+              >
+                {text.length > 25 ? `${text.substring(0, 25)}...` : text}
+              </button>
+            ))}
+          </div>
+        </div>
+        
         <button
           onClick={handleSubmit}
           disabled={!file || loading}
@@ -234,17 +265,14 @@ const PDFAnalyzer = () => {
         }}>
           <h3>PDF Analysis Results</h3>
           <div style={{ 
-            whiteSpace: 'pre-wrap',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
             padding: '15px',
             backgroundColor: 'white',
             border: '1px solid #eee',
             borderRadius: '4px',
             maxHeight: '500px',
-            overflow: 'auto',
-            lineHeight: '1.6'
+            overflow: 'auto'
           }}>
-            {analysis}
+            <MarkdownRenderer content={analysis} />
           </div>
         </div>
       )}
