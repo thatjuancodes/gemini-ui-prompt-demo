@@ -17,11 +17,10 @@ This project demonstrates how to integrate Google's Gemini AI into a React appli
 4. Replace `your_api_key_here` with your actual Gemini API key
 
 ## Model Information
-This application uses the following models from Google's Generative AI:
-- `gemini-pro` - For text-only prompts
-- `gemini-1.5-flash` - For PDF file analysis (multimodal capabilities)
+This application uses the following model from Google's Generative AI:
+- `gemini-1.5-flash` - For both text prompts and PDF file analysis (multimodal capabilities)
 
-Note: The previously used `gemini-pro-vision` model was deprecated by Google on July 12, 2024. The application now uses the recommended `gemini-1.5-flash` model instead.
+Note: The previously used `gemini-pro` and `gemini-pro-vision` models have been deprecated by Google. The application now uses the recommended `gemini-1.5-flash` model for all functionality.
 
 If you encounter model-related errors, check the [Google AI documentation](https://ai.google.dev/models/gemini) for the latest available models and their capabilities.
 

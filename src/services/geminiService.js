@@ -3,12 +3,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 // Initialize the Google Generative AI with the API key from environment variables
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
 
-// Get the generative model for text prompts
-// For backward compatibility, we keep gemini-pro for text-only prompts
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+// Update to use gemini-1.5-flash for text prompts as well for consistency
+// The gemini-pro model might be deprecated or unavailable
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-// Update to the recommended model for multimodal content (including PDFs)
-// gemini-pro-vision has been deprecated as of July 12, 2024
+// Use the same model for multimodal content (including PDFs)
 const visionModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 /**

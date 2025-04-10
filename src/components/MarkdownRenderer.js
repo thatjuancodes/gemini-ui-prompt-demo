@@ -99,9 +99,21 @@ const MarkdownRenderer = ({ content }) => {
           },
           // Basic text styling
           p: ({ node, ...props }) => <p style={{ lineHeight: '1.6', marginBottom: '1rem' }} {...props} />,
-          h1: ({ node, ...props }) => <h1 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props} />,
-          h2: ({ node, ...props }) => <h2 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props} />,
-          h3: ({ node, ...props }) => <h3 style={{ marginTop: '1.5rem', marginBottom: '1rem' }} {...props} />,
+          h1: ({ node, children, ...props }) => (
+            <h1 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+              {children}
+            </h1>
+          ),
+          h2: ({ node, children, ...props }) => (
+            <h2 style={{ borderBottom: '1px solid #eaecef', paddingBottom: '.3em', marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+              {children}
+            </h2>
+          ),
+          h3: ({ node, children, ...props }) => (
+            <h3 style={{ marginTop: '1.5rem', marginBottom: '1rem' }} {...props}>
+              {children}
+            </h3>
+          ),
           ul: ({ node, ...props }) => <ul style={{ paddingLeft: '2em', marginBottom: '1rem' }} {...props} />,
           ol: ({ node, ...props }) => <ol style={{ paddingLeft: '2em', marginBottom: '1rem' }} {...props} />,
           li: ({ node, ...props }) => <li style={{ marginBottom: '0.5rem' }} {...props} />
